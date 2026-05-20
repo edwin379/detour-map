@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>俺たちの青春マップ</title>
+    
+    <!-- MapLibre GL JS -->
+    <link href="https://unpkg.com/maplibre-gl@4.0.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl@4.0.0/dist/maplibre-gl.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="splash-screen" class="splash-screen">
+        <canvas id="brush-canvas"></canvas>
+    </div>
+    
+    <div id="map-container" class="hidden">
+        <div id="map" class="map"></div>
+        
+        <!-- Routes List UI -->
+        <div class="routes-panel">
+            <div id="routes-list" class="routes-list"></div>
+        </div>
+        
+        <!-- Timebar UI -->
+        <div class="timebar-container">
+            <div class="timebar-controls">
+                <button id="play-btn" class="play-btn">▶</button>
+                <div class="time-display">
+                    <span id="current-time">00:00</span> / <span id="total-time">00:00</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                    <div id="progress-handle" class="progress-handle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="gpx-parser.js"></script>
+    <script src="animation.js"></script>
+    <script src="map-app.js"></script>
+</body>
+</html>
