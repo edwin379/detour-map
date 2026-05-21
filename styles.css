@@ -31,6 +31,7 @@ html, body {
 }
 
 #brush-canvas {
+    display: block;
     width: 100%;
     height: 100%;
     max-width: 1200px;
@@ -97,13 +98,22 @@ html, body {
     gap: 12px;
     flex-wrap: nowrap;
     padding: 4px;
+    align-items: flex-end;
+}
+
+.route-card {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 64px;
 }
 
 .route-item {
     flex-shrink: 0;
     width: 56px;
     height: 56px;
-    border-radius: 12px;
+    border-radius: 16px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     cursor: pointer;
     border: 2px solid transparent;
@@ -118,6 +128,22 @@ html, body {
     padding: 4px;
     position: relative;
     overflow: hidden;
+}
+
+.route-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.route-label {
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center;
+    color: #111;
+    max-width: 72px;
+    word-break: break-word;
 }
 
 .route-item:hover {

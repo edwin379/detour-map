@@ -2,6 +2,16 @@
  * GPX Parser - Loads and parses GPX files
  */
 class GPXParser {
+    static routeColors = [
+        '#FF6B6B',
+        '#4ECDC4',
+        '#FFA726',
+        '#6A5ACD',
+        '#F7DC6F',
+        '#8BC34A',
+        '#FF8A65'
+    ];
+
     static async loadGPXFiles() {
         const gpxFiles = [
             'edwin_ru_7eleven_1.gpx',
@@ -15,7 +25,8 @@ class GPXParser {
 
         const routes = [];
 
-        for (const file of gpxFiles) {
+        for (let index = 0; index < gpxFiles.length; index++) {
+            const file = gpxFiles[index];
             try {
                 const response = await fetch(`gpx/${file}`);
                 if (!response.ok) continue;
@@ -26,6 +37,7 @@ class GPXParser {
 
                 const route = GPXParser.parseGPXDocument(xmlDoc, file);
                 if (route && route.points.length > 0) {
+                    route.color = GPXParser.routeColors[index % GPXParser.routeColors.length];
                     routes.push(route);
                 }
             } catch (error) {

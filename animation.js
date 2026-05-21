@@ -6,13 +6,19 @@ class BrushAnimation {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.setupCanvas();
+        window.addEventListener('resize', () => this.setupCanvas());
         this.startAnimation();
     }
 
     setupCanvas() {
-        this.canvas.width = this.canvas.offsetWidth * devicePixelRatio;
-        this.canvas.height = this.canvas.offsetHeight * devicePixelRatio;
-        this.ctx.scale(devicePixelRatio, devicePixelRatio);
+        if (!this.canvas || !this.ctx) return;
+
+        const width = this.canvas.offsetWidth || this.canvas.getBoundingClientRect().width;
+        const height = this.canvas.offsetHeight || this.canvas.getBoundingClientRect().height;
+
+        this.canvas.width = width * devicePixelRatio;
+        this.canvas.height = height * devicePixelRatio;
+        this.ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';
     }
@@ -111,4 +117,34 @@ class BrushAnimation {
 // Start animation when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new BrushAnimation('brush-canvas');
+
+    const bgm = document.getElementById('bgm-audio');
+    const splash = document.getElementById('splash-screen');
+
+    const tryPlayBgm = () => {
+        if (!bgm) return;
+        bgm.volume = 0.24;
+        bgm.loop = true;
+        const playPromise = bgm.play();
+        if (playPromise && playPromise.catch) {
+            playPromise.catch((err) => {
+                console.warn('BGM autoplay blocked:', err);
+                const resumeOnInteraction = () => {
+                    if (bgm.paused) {
+                        bgm.play().catch(() => {});
+                    }
+                };
+                document.addEventListener('click', resumeOnInteraction, { once: true, passive: true });
+            });
+        }
+    };
+
+    if (splash) {
+        splash.addEventListener('animationend', (event) => {
+            if (event.animationName === 'fadeOutScreen') {
+                splash.classList.add('hidden');
+                tryPlayBgm();
+            }
+        });
+    }
 });

@@ -50,10 +50,10 @@ class MapApp {
         this.updateActiveTimeBounds();
         this.updateTimeDisplay();
 
-        // Show map
+        // Show map when the splash animation is complete
         setTimeout(() => {
             document.getElementById('map-container').classList.remove('hidden');
-        }, 3500);
+        }, 5800);
     }
 
     initMap() {
@@ -209,18 +209,35 @@ class MapApp {
         routesList.innerHTML = '';
 
         this.routes.forEach((route, index) => {
+            const card = document.createElement('div');
+            card.className = 'route-card';
+
             const item = document.createElement('div');
             item.className = 'route-item active';
             item.dataset.routeIndex = index;
             item.title = route.name;
-            item.textContent = route.name.substring(0, 3);
             item.style.background = `linear-gradient(135deg, ${route.color} 0%, ${this.adjustColor(route.color, 0.7)} 100%)`;
+
+            if (/soichi/i.test(route.filename) || /soichi/i.test(route.name)) {
+                const image = document.createElement('img');
+                image.src = '図1.png';
+                image.alt = route.name;
+                item.appendChild(image);
+            } else {
+                item.textContent = route.name.substring(0, 3);
+            }
 
             item.addEventListener('click', () => {
                 this.toggleRoute(index);
             });
 
-            routesList.appendChild(item);
+            const label = document.createElement('div');
+            label.className = 'route-label';
+            label.textContent = route.name;
+
+            card.appendChild(item);
+            card.appendChild(label);
+            routesList.appendChild(card);
         });
     }
 
